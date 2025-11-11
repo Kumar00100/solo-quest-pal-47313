@@ -91,10 +91,10 @@ const Assistant = () => {
         </Button>
       </div>
 
-      {/* Main content area */}
-      <div className="relative pt-20 min-h-screen pb-32 flex flex-col items-center">
-        {/* Avatar at top */}
-        <div className="mb-8">
+      {/* Main content area - properly separated sections */}
+      <div className="container mx-auto px-4 max-w-3xl pt-20 pb-32 min-h-screen">
+        {/* Avatar section - centered at top */}
+        <div className="flex justify-center pt-8 mb-12">
           <AssistantAvatar 
             isSpeaking={isSpeaking}
             isListening={isListening}
@@ -102,85 +102,83 @@ const Assistant = () => {
           />
         </div>
 
-        {/* Chat messages in dedicated area below avatar */}
-        <div className="w-full max-w-3xl px-4 flex-1 overflow-y-auto">
-          <div className="space-y-4 pb-8">
-            {messages.map((msg, idx) => (
+        {/* Chat messages section - below avatar, no overlap */}
+        <div className="space-y-4 relative z-10">
+          {messages.map((msg, idx) => (
+            <div
+              key={idx}
+              className={`
+                flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}
+                animate-slide-up
+              `}
+            >
               <div
-                key={idx}
                 className={`
-                  flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}
-                  animate-slide-up
+                  max-w-[80%] px-4 py-3 rounded-2xl shadow-lg
+                  ${msg.role === 'user'
+                    ? 'bg-gradient-primary text-primary-foreground'
+                    : 'bg-card/90 backdrop-blur-sm border border-primary/20 text-foreground'
+                  }
                 `}
               >
-                <div
-                  className={`
-                    max-w-[80%] px-4 py-3 rounded-2xl shadow-lg
-                    ${msg.role === 'user'
-                      ? 'bg-gradient-primary text-primary-foreground ml-auto'
-                      : 'bg-card/90 backdrop-blur-sm border border-primary/20 text-foreground'
-                    }
-                  `}
-                >
-                  {msg.text}
-                </div>
+                {msg.text}
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
-
-        {/* Input Controls */}
-        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 flex items-center gap-3">
-          {/* Keyboard toggle button */}
-          <Button
-            onClick={() => setShowInput(!showInput)}
-            size="icon"
-            className={`
-              rounded-full w-14 h-14 shadow-glow transition-all
-              ${showInput 
-                ? 'bg-primary hover:bg-primary/90' 
-                : 'bg-card/80 backdrop-blur-md border border-primary/20 hover:bg-card'
-              }
-            `}
-          >
-            <Keyboard className="w-6 h-6" />
-          </Button>
-
-          {/* Mic button */}
-          <Button
-            onClick={handleToggleListening}
-            size="icon"
-            className={`
-              rounded-full w-14 h-14 shadow-glow transition-all
-              ${isListening 
-                ? 'bg-destructive hover:bg-destructive/90 animate-pulse-glow' 
-                : 'bg-gradient-primary hover:shadow-glow-lg'
-              }
-            `}
-          >
-            {isListening ? <MicOff className="w-6 h-6" /> : <Mic className="w-6 h-6" />}
-          </Button>
-        </div>
-
-        {/* Voice Input - only shown when keyboard is toggled */}
-        {showInput && (
-          <VoiceInput
-            onSend={handleSendMessage}
-            isListening={isListening}
-            onToggleListening={handleToggleListening}
-            onOpenHistory={() => setHistoryOpen(true)}
-          />
-        )}
-
-        {/* Tasks Slide-over */}
-        <TasksSlideOver />
-
-        {/* Modals */}
-        <ProfileModal open={profileOpen} onOpenChange={setProfileOpen} />
-        <DashboardModal open={dashboardOpen} onOpenChange={setDashboardOpen} />
-        <WalkingTracker open={walkingTrackerOpen} onOpenChange={setWalkingTrackerOpen} />
-        <ChatHistoryModal open={historyOpen} onOpenChange={setHistoryOpen} messages={messages} />
       </div>
+
+      {/* Input Controls */}
+      <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 flex items-center gap-3">
+        {/* Keyboard toggle button */}
+        <Button
+          onClick={() => setShowInput(!showInput)}
+          size="icon"
+          className={`
+            rounded-full w-14 h-14 shadow-glow transition-all
+            ${showInput 
+              ? 'bg-primary hover:bg-primary/90' 
+              : 'bg-card/80 backdrop-blur-md border border-primary/20 hover:bg-card'
+            }
+          `}
+        >
+          <Keyboard className="w-6 h-6" />
+        </Button>
+
+        {/* Mic button */}
+        <Button
+          onClick={handleToggleListening}
+          size="icon"
+          className={`
+            rounded-full w-14 h-14 shadow-glow transition-all
+            ${isListening 
+              ? 'bg-destructive hover:bg-destructive/90 animate-pulse-glow' 
+              : 'bg-gradient-primary hover:shadow-glow-lg'
+            }
+          `}
+        >
+          {isListening ? <MicOff className="w-6 h-6" /> : <Mic className="w-6 h-6" />}
+        </Button>
+      </div>
+
+      {/* Voice Input - only shown when keyboard is toggled */}
+      {showInput && (
+        <VoiceInput
+          onSend={handleSendMessage}
+          isListening={isListening}
+          onToggleListening={handleToggleListening}
+          onOpenHistory={() => setHistoryOpen(true)}
+        />
+      )}
+
+      {/* Tasks Slide-over */}
+      <TasksSlideOver />
+
+      {/* Modals */}
+      <ProfileModal open={profileOpen} onOpenChange={setProfileOpen} />
+      <DashboardModal open={dashboardOpen} onOpenChange={setDashboardOpen} />
+      <WalkingTracker open={walkingTrackerOpen} onOpenChange={setWalkingTrackerOpen} />
+      <ChatHistoryModal open={historyOpen} onOpenChange={setHistoryOpen} messages={messages} />
     </div>
   );
 };

@@ -61,7 +61,7 @@ export function AssistantAvatar({
   };
 
   return (
-    <div className="fixed top-24 left-1/2 -translate-x-1/2 z-40">
+    <div className="relative mx-auto w-fit">
       <div className="relative">
         {/* Glow effect */}
         <div className={`absolute inset-0 rounded-full bg-gradient-primary blur-2xl opacity-50 transition-all ${
