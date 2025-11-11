@@ -92,17 +92,19 @@ const Assistant = () => {
       </div>
 
       {/* Main content area */}
-      <div className="relative pt-32 min-h-screen pb-32">
-        {/* Avatar */}
-        <AssistantAvatar 
-          isSpeaking={isSpeaking}
-          isListening={isListening}
-          expression={expression}
-        />
+      <div className="relative pt-20 min-h-screen pb-32 flex flex-col items-center">
+        {/* Avatar at top */}
+        <div className="mb-8">
+          <AssistantAvatar 
+            isSpeaking={isSpeaking}
+            isListening={isListening}
+            expression={expression}
+          />
+        </div>
 
-        {/* Chat messages - now with proper z-index */}
-        <div className="relative z-30 container mx-auto px-4 max-w-3xl mt-8">
-          <div className="space-y-4">
+        {/* Chat messages in dedicated area below avatar */}
+        <div className="w-full max-w-3xl px-4 flex-1 overflow-y-auto">
+          <div className="space-y-4 pb-8">
             {messages.map((msg, idx) => (
               <div
                 key={idx}
