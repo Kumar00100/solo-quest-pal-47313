@@ -102,30 +102,7 @@ const Assistant = () => {
           />
         </div>
 
-        {/* Chat messages section - below avatar, no overlap */}
-        <div className="space-y-4 relative z-10">
-          {messages.map((msg, idx) => (
-            <div
-              key={idx}
-              className={`
-                flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}
-                animate-slide-up
-              `}
-            >
-              <div
-                className={`
-                  max-w-[80%] px-4 py-3 rounded-2xl shadow-lg
-                  ${msg.role === 'user'
-                    ? 'bg-gradient-primary text-primary-foreground'
-                    : 'bg-card/90 backdrop-blur-sm border border-primary/20 text-foreground'
-                  }
-                `}
-              >
-                {msg.text}
-              </div>
-            </div>
-          ))}
-        </div>
+        {/* Chat messages section - HIDDEN, only visible in modal */}
       </div>
 
       {/* Input Controls */}
