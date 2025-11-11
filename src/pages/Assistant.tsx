@@ -100,8 +100,8 @@ const Assistant = () => {
           expression={expression}
         />
 
-        {/* Chat messages */}
-        <div className="container mx-auto px-4 max-w-3xl">
+        {/* Chat messages - now with proper z-index */}
+        <div className="relative z-30 container mx-auto px-4 max-w-3xl mt-8">
           <div className="space-y-4">
             {messages.map((msg, idx) => (
               <div
@@ -113,10 +113,10 @@ const Assistant = () => {
               >
                 <div
                   className={`
-                    max-w-[80%] px-4 py-3 rounded-2xl
+                    max-w-[80%] px-4 py-3 rounded-2xl shadow-lg
                     ${msg.role === 'user'
                       ? 'bg-gradient-primary text-primary-foreground ml-auto'
-                      : 'bg-card border border-primary/20'
+                      : 'bg-card/90 backdrop-blur-sm border border-primary/20 text-foreground'
                     }
                   `}
                 >
