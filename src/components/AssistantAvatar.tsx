@@ -63,25 +63,42 @@ export function AssistantAvatar({
   return (
     <div className="relative mx-auto w-fit">
       <div className="relative">
-        {/* Enhanced glow effect */}
-        <div className={`absolute -inset-4 rounded-full bg-gradient-primary blur-3xl opacity-40 transition-all duration-500 ${
-          isSpeaking ? 'animate-pulse-glow scale-125 opacity-60' : isListening ? 'opacity-50 scale-110' : ''
+        {/* Multi-layer glow effects */}
+        <div className={`absolute -inset-8 rounded-full blur-3xl transition-all duration-700 ${
+          isSpeaking 
+            ? 'bg-gradient-to-r from-primary via-secondary to-accent opacity-70 animate-pulse-glow scale-110' 
+            : isListening 
+            ? 'bg-gradient-to-r from-primary/60 to-secondary/60 opacity-50 scale-105' 
+            : 'bg-gradient-to-r from-primary/40 to-secondary/40 opacity-30'
         }`} />
         
-        {/* Outer ring with gradient */}
-        <div className={`relative w-48 h-48 rounded-full bg-gradient-to-br from-primary via-secondary to-primary p-1 transition-all duration-300 ${
+        <div className={`absolute -inset-6 rounded-full bg-gradient-radial transition-all duration-500 ${
+          isSpeaking ? 'opacity-60 scale-110' : 'opacity-30'
+        }`} />
+        
+        {/* Outer ring with animated gradient */}
+        <div className={`relative w-64 h-64 rounded-full p-[3px] transition-all duration-500 ${
           isSpeaking ? 'animate-pulse-glow scale-105' : ''
-        }`}>
-          {/* Inner ring */}
-          <div className="w-full h-full rounded-full bg-gradient-to-br from-background via-card to-background p-2">
-            {/* Avatar container */}
-            <div className="w-full h-full rounded-full bg-gradient-to-br from-card to-background flex items-center justify-center overflow-hidden relative shadow-2xl">
-              {/* Robot Image with better sizing */}
-              <img 
-                src={robotAvatar} 
-                alt="AI Assistant" 
-                className="w-full h-full object-cover scale-110"
-              />
+        }`} style={{
+          background: 'linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--secondary)) 50%, hsl(var(--accent)) 100%)',
+        }}>
+          {/* Middle ring */}
+          <div className="w-full h-full rounded-full bg-background p-[2px]">
+            {/* Inner gradient ring */}
+            <div className="w-full h-full rounded-full p-3" style={{
+              background: 'linear-gradient(225deg, hsl(var(--card)) 0%, hsl(var(--background)) 100%)',
+            }}>
+              {/* Avatar container with enhanced shadow */}
+              <div className="w-full h-full rounded-full flex items-center justify-center overflow-hidden relative" style={{
+                background: 'linear-gradient(135deg, hsl(var(--card)) 0%, hsl(var(--background)) 100%)',
+                boxShadow: 'inset 0 0 60px rgba(0,0,0,0.5), 0 10px 40px rgba(0,0,0,0.8)',
+              }}>
+                {/* Robot Image with perfect fit */}
+                <img 
+                  src={robotAvatar} 
+                  alt="AI Assistant" 
+                  className="w-full h-full object-cover scale-[1.15]"
+                />
               
               {/* Animated overlay for expressions */}
               <div className="absolute inset-0 flex items-center justify-center">
@@ -157,45 +174,56 @@ export function AssistantAvatar({
                 </svg>
               </div>
 
-              {/* Shine effect */}
-              <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-transparent rounded-full pointer-events-none" />
+                {/* Enhanced shine effect */}
+                <div className="absolute inset-0 rounded-full pointer-events-none" style={{
+                  background: 'radial-gradient(circle at 30% 30%, rgba(255,255,255,0.15) 0%, transparent 50%)',
+                }} />
+                
+                {/* Rim light */}
+                <div className="absolute inset-0 rounded-full pointer-events-none" style={{
+                  background: 'linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.05) 50%, transparent 100%)',
+                }} />
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Enhanced level indicator */}
-        <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-gradient-primary rounded-full px-4 py-2 text-sm font-bold whitespace-nowrap shadow-glow border border-primary/30">
-          <span className="text-primary-foreground">Level 1</span>
+        {/* Premium level indicator with better styling */}
+        <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 rounded-full px-6 py-2.5 text-sm font-bold whitespace-nowrap border-2 shadow-glow-lg" style={{
+          background: 'linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--secondary)) 100%)',
+          borderColor: 'hsl(var(--primary-glow))',
+          boxShadow: '0 0 30px hsl(var(--primary) / 0.6), inset 0 1px 0 rgba(255,255,255,0.2)',
+        }}>
+          <span className="text-primary-foreground font-extrabold tracking-wide">LEVEL 1</span>
         </div>
 
-        {/* Floating particles effect when speaking */}
+        {/* Enhanced floating particles effect when speaking */}
         {isSpeaking && (
           <div className="absolute inset-0 pointer-events-none">
-            <motion.div
-              className="absolute top-1/4 left-1/4 w-2 h-2 rounded-full bg-primary/60"
-              animate={{
-                y: [-20, -60],
-                opacity: [0, 1, 0],
-              }}
-              transition={{
-                duration: 2,
-                repeat: Infinity,
-                ease: "easeOut"
-              }}
-            />
-            <motion.div
-              className="absolute top-1/3 right-1/4 w-2 h-2 rounded-full bg-secondary/60"
-              animate={{
-                y: [-20, -60],
-                opacity: [0, 1, 0],
-              }}
-              transition={{
-                duration: 2,
-                repeat: Infinity,
-                delay: 0.5,
-                ease: "easeOut"
-              }}
-            />
+            {[...Array(6)].map((_, i) => (
+              <motion.div
+                key={i}
+                className="absolute w-2 h-2 rounded-full"
+                style={{
+                  background: i % 3 === 0 ? 'hsl(var(--primary))' : i % 3 === 1 ? 'hsl(var(--secondary))' : 'hsl(var(--accent))',
+                  left: `${20 + i * 10}%`,
+                  top: '50%',
+                  opacity: 0.6,
+                }}
+                animate={{
+                  y: [-30, -80],
+                  x: [0, (i % 2 === 0 ? 20 : -20)],
+                  opacity: [0, 0.8, 0],
+                  scale: [0.5, 1.2, 0.5],
+                }}
+                transition={{
+                  duration: 2 + i * 0.2,
+                  repeat: Infinity,
+                  delay: i * 0.3,
+                  ease: "easeOut"
+                }}
+              />
+            ))}
           </div>
         )}
       </div>
