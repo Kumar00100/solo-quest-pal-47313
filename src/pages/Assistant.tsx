@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { TopBar } from '@/components/TopBar';
-import { AssistantAvatar } from '@/components/AssistantAvatar';
 import { VoiceInput } from '@/components/VoiceInput';
 import { TasksSlideOver } from '@/components/TasksSlideOver';
 import { ProfileModal } from '@/components/ProfileModal';
@@ -91,18 +90,9 @@ const Assistant = () => {
         </Button>
       </div>
 
-      {/* Main content area - properly separated sections */}
+      {/* Main content area */}
       <div className="container mx-auto px-4 max-w-3xl pt-20 pb-32 min-h-screen">
-        {/* Avatar section - centered at top */}
-        <div className="flex justify-center pt-8 mb-12">
-          <AssistantAvatar 
-            isSpeaking={isSpeaking}
-            isListening={isListening}
-            expression={expression}
-          />
-        </div>
-
-        {/* Chat messages section - HIDDEN, only visible in modal */}
+        {/* Content hidden, only accessible via modals */}
       </div>
 
       {/* Input Controls */}
