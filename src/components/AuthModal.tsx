@@ -85,11 +85,14 @@ export function AuthModal({ open, onOpenChange, mode }: AuthModalProps) {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md bg-card border-primary/20">
+      <DialogContent className="sm:max-w-md bg-card border-primary/20" aria-describedby="auth-description">
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold text-center bg-gradient-primary bg-clip-text text-transparent">
             Welcome to SoloLevel
           </DialogTitle>
+          <p id="auth-description" className="text-sm text-muted-foreground text-center">
+            {activeTab === 'login' ? 'Sign in to your account' : 'Create a new account'}
+          </p>
         </DialogHeader>
 
         <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as 'login' | 'signup')} className="w-full">
