@@ -98,7 +98,6 @@ const Assistant = () => {
           <AssistantAvatar 
             isSpeaking={isSpeaking}
             isListening={isListening}
-            expression={expression}
           />
         </div>
       </div>
