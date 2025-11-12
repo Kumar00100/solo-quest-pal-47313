@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import robotAvatar from '@/assets/robot-avatar.png';
 
 type Expression = 'idle' | 'speaking' | 'thinking' | 'happy';
 
@@ -63,161 +62,111 @@ export function AssistantAvatar({
   return (
     <div className="relative mx-auto w-fit">
       <div className="relative">
-        {/* Multi-layer glow effects */}
-        <div className={`absolute -inset-8 rounded-full blur-3xl transition-all duration-700 ${
+        {/* Glow effect */}
+        <div className={`absolute -inset-6 rounded-full blur-2xl transition-all duration-500 ${
           isSpeaking 
-            ? 'bg-gradient-to-r from-primary via-secondary to-accent opacity-70 animate-pulse-glow scale-110' 
+            ? 'bg-gradient-to-r from-primary via-secondary to-accent opacity-60 animate-pulse-glow' 
             : isListening 
-            ? 'bg-gradient-to-r from-primary/60 to-secondary/60 opacity-50 scale-105' 
-            : 'bg-gradient-to-r from-primary/40 to-secondary/40 opacity-30'
+            ? 'bg-primary/40 opacity-50' 
+            : 'bg-primary/20 opacity-30'
         }`} />
         
-        <div className={`absolute -inset-6 rounded-full bg-gradient-radial transition-all duration-500 ${
-          isSpeaking ? 'opacity-60 scale-110' : 'opacity-30'
-        }`} />
-        
-        {/* Outer ring with animated gradient */}
-        <div className={`relative w-64 h-64 rounded-full p-[3px] transition-all duration-500 ${
-          isSpeaking ? 'animate-pulse-glow scale-105' : ''
+        {/* Main avatar circle */}
+        <div className={`relative w-32 h-32 rounded-full transition-all duration-300 ${
+          isSpeaking ? 'scale-105' : ''
         }`} style={{
-          background: 'linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--secondary)) 50%, hsl(var(--accent)) 100%)',
+          background: 'linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--secondary)) 100%)',
         }}>
-          {/* Middle ring */}
-          <div className="w-full h-full rounded-full bg-background p-[2px]">
-            {/* Inner gradient ring */}
-            <div className="w-full h-full rounded-full p-3" style={{
-              background: 'linear-gradient(225deg, hsl(var(--card)) 0%, hsl(var(--background)) 100%)',
-            }}>
-              {/* Avatar container with enhanced shadow */}
-              <div className="w-full h-full rounded-full flex items-center justify-center overflow-hidden relative" style={{
-                background: 'linear-gradient(135deg, hsl(var(--card)) 0%, hsl(var(--background)) 100%)',
-                boxShadow: 'inset 0 0 60px rgba(0,0,0,0.5), 0 10px 40px rgba(0,0,0,0.8)',
-              }}>
-                {/* Robot Image with perfect fit */}
-                <img 
-                  src={robotAvatar} 
-                  alt="AI Assistant" 
-                  className="w-full h-full object-cover scale-[1.15]"
-                />
+          <div className="absolute inset-[3px] rounded-full bg-background flex items-center justify-center">
+            <svg width="100" height="100" viewBox="0 0 100 100" className="relative z-10">
+              {/* Robot head */}
+              <rect x="25" y="30" width="50" height="45" rx="8" fill="hsl(var(--card))" stroke="hsl(var(--primary))" strokeWidth="2"/>
               
-              {/* Animated overlay for expressions */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <svg width="140" height="140" viewBox="0 0 120 120" className="absolute">
-                  {/* Eyes with expressions */}
-                  <motion.ellipse
-                    cx="45"
-                    cy="50"
-                    rx="8"
-                    ry={getEyeHeight()}
-                    fill="rgba(255, 255, 255, 0.95)"
-                    animate={{
-                      ry: getEyeHeight(),
-                    }}
-                    transition={{ duration: 0.15 }}
-                  />
-                  <motion.ellipse
-                    cx="75"
-                    cy="50"
-                    rx="8"
-                    ry={getEyeHeight()}
-                    fill="rgba(255, 255, 255, 0.95)"
-                    animate={{
-                      ry: getEyeHeight(),
-                    }}
-                    transition={{ duration: 0.15 }}
-                  />
-
-                  {/* Pupils with subtle movement */}
-                  <motion.circle
-                    cx="45"
-                    cy="50"
-                    r="4"
-                    fill="rgba(0, 0, 0, 0.9)"
-                    animate={isListening ? {
-                      cx: [45, 47, 43, 45],
-                    } : {}}
-                    transition={{
-                      duration: 2,
-                      repeat: isListening ? Infinity : 0,
-                      ease: "easeInOut"
-                    }}
-                  />
-                  <motion.circle
-                    cx="75"
-                    cy="50"
-                    r="4"
-                    fill="rgba(0, 0, 0, 0.9)"
-                    animate={isListening ? {
-                      cx: [75, 77, 73, 75],
-                    } : {}}
-                    transition={{
-                      duration: 2,
-                      repeat: isListening ? Infinity : 0,
-                      ease: "easeInOut"
-                    }}
-                  />
-
-                  {/* Realistic mouth/lip movement */}
-                  <motion.path
-                    d="M 40 75 Q 60 80 80 75"
-                    fill="none"
-                    stroke="rgba(255, 255, 255, 0.9)"
-                    strokeWidth="3"
-                    strokeLinecap="round"
-                    animate={isSpeaking ? getMouthAnimation() : {}}
-                    transition={{
-                      duration: 0.15,
-                      repeat: isSpeaking ? Infinity : 0,
-                      ease: "easeInOut"
-                    }}
-                  />
-                </svg>
-              </div>
-
-                {/* Enhanced shine effect */}
-                <div className="absolute inset-0 rounded-full pointer-events-none" style={{
-                  background: 'radial-gradient(circle at 30% 30%, rgba(255,255,255,0.15) 0%, transparent 50%)',
-                }} />
-                
-                {/* Rim light */}
-                <div className="absolute inset-0 rounded-full pointer-events-none" style={{
-                  background: 'linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.05) 50%, transparent 100%)',
-                }} />
-              </div>
-            </div>
+              {/* Antenna */}
+              <line x1="50" y1="30" x2="50" y2="20" stroke="hsl(var(--primary))" strokeWidth="2"/>
+              <circle cx="50" cy="18" r="3" fill="hsl(var(--secondary))" className={isSpeaking ? 'animate-pulse' : ''}/>
+              
+              {/* Eyes */}
+              <motion.rect
+                x="35" 
+                y="42" 
+                width="8" 
+                height={getEyeHeight()}
+                rx="4"
+                fill="hsl(var(--primary))"
+                animate={{
+                  height: getEyeHeight(),
+                }}
+                transition={{ duration: 0.15 }}
+              />
+              <motion.rect
+                x="57" 
+                y="42" 
+                width="8" 
+                height={getEyeHeight()}
+                rx="4"
+                fill="hsl(var(--primary))"
+                animate={{
+                  height: getEyeHeight(),
+                }}
+                transition={{ duration: 0.15 }}
+              />
+              
+              {/* Mouth */}
+              <motion.path
+                d="M 35 60 Q 50 65 65 60"
+                fill="none"
+                stroke="hsl(var(--secondary))"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                animate={isSpeaking ? getMouthAnimation() : {}}
+                transition={{
+                  duration: 0.15,
+                  repeat: isSpeaking ? Infinity : 0,
+                  ease: "easeInOut"
+                }}
+              />
+              
+              {/* Decorative elements */}
+              <circle cx="32" cy="68" r="2" fill="hsl(var(--accent))" opacity="0.6"/>
+              <circle cx="68" cy="68" r="2" fill="hsl(var(--accent))" opacity="0.6"/>
+            </svg>
           </div>
+          
+          {/* Shine effect */}
+          <div className="absolute inset-0 rounded-full pointer-events-none" style={{
+            background: 'radial-gradient(circle at 30% 30%, rgba(255,255,255,0.1) 0%, transparent 50%)',
+          }} />
         </div>
 
-        {/* Premium level indicator with better styling */}
-        <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 rounded-full px-6 py-2.5 text-sm font-bold whitespace-nowrap border-2 shadow-glow-lg" style={{
+        {/* Level badge */}
+        <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 rounded-full px-4 py-1.5 text-xs font-bold border-2" style={{
           background: 'linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--secondary)) 100%)',
           borderColor: 'hsl(var(--primary-glow))',
-          boxShadow: '0 0 30px hsl(var(--primary) / 0.6), inset 0 1px 0 rgba(255,255,255,0.2)',
+          boxShadow: '0 0 20px hsl(var(--primary) / 0.4)',
         }}>
-          <span className="text-primary-foreground font-extrabold tracking-wide">LEVEL 1</span>
+          <span className="text-primary-foreground font-bold">LVL 1</span>
         </div>
 
-        {/* Enhanced floating particles effect when speaking */}
+        {/* Particles when speaking */}
         {isSpeaking && (
           <div className="absolute inset-0 pointer-events-none">
-            {[...Array(6)].map((_, i) => (
+            {[...Array(4)].map((_, i) => (
               <motion.div
                 key={i}
-                className="absolute w-2 h-2 rounded-full"
+                className="absolute w-1.5 h-1.5 rounded-full"
                 style={{
-                  background: i % 3 === 0 ? 'hsl(var(--primary))' : i % 3 === 1 ? 'hsl(var(--secondary))' : 'hsl(var(--accent))',
-                  left: `${20 + i * 10}%`,
+                  background: i % 2 === 0 ? 'hsl(var(--primary))' : 'hsl(var(--secondary))',
+                  left: `${30 + i * 15}%`,
                   top: '50%',
-                  opacity: 0.6,
                 }}
                 animate={{
-                  y: [-30, -80],
-                  x: [0, (i % 2 === 0 ? 20 : -20)],
+                  y: [-20, -50],
                   opacity: [0, 0.8, 0],
-                  scale: [0.5, 1.2, 0.5],
+                  scale: [0.5, 1, 0.5],
                 }}
                 transition={{
-                  duration: 2 + i * 0.2,
+                  duration: 1.5,
                   repeat: Infinity,
                   delay: i * 0.3,
                   ease: "easeOut"

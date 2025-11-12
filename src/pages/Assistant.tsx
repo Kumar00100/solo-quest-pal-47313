@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { TopBar } from '@/components/TopBar';
+import { AssistantAvatar } from '@/components/AssistantAvatar';
 import { VoiceInput } from '@/components/VoiceInput';
 import { TasksSlideOver } from '@/components/TasksSlideOver';
 import { ProfileModal } from '@/components/ProfileModal';
@@ -92,7 +93,14 @@ const Assistant = () => {
 
       {/* Main content area */}
       <div className="container mx-auto px-4 max-w-3xl pt-20 pb-32 min-h-screen">
-        {/* Content hidden, only accessible via modals */}
+        {/* Avatar section - centered */}
+        <div className="flex justify-center pt-16">
+          <AssistantAvatar 
+            isSpeaking={isSpeaking}
+            isListening={isListening}
+            expression={expression}
+          />
+        </div>
       </div>
 
       {/* Input Controls */}
