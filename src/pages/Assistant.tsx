@@ -92,6 +92,16 @@ const Assistant = () => {
         >
           <MapPin className="w-5 h-5" />
         </Button>
+        
+        {/* Emergency SOS Button */}
+        <div className="h-px bg-border/50 my-2" />
+        <Button
+          onClick={() => alert('Emergency SOS activated! Sending alert...')}
+          size="icon"
+          className="rounded-full w-14 h-14 bg-destructive/20 backdrop-blur-md border-2 border-destructive hover:bg-destructive hover:border-destructive/80 shadow-[0_0_20px_rgba(239,68,68,0.5)] hover:shadow-[0_0_30px_rgba(239,68,68,0.8)] transition-all animate-pulse-glow"
+        >
+          <span className="text-xl font-bold text-destructive-foreground">SOS</span>
+        </Button>
       </div>
 
       {/* Main content area */}

@@ -31,26 +31,33 @@ export function AssistantAvatar({
     <div className="relative mx-auto w-fit py-8">
       <svg width="300" height="300" viewBox="0 0 300 300" className="relative">
         <defs>
-          {/* Vibrant gradients using design system colors */}
+          {/* Premium gradients */}
           <linearGradient id="primaryGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="hsl(217, 91%, 60%)" />
+            <stop offset="0%" stopColor="hsl(180, 100%, 50%)" />
+            <stop offset="50%" stopColor="hsl(217, 91%, 60%)" />
             <stop offset="100%" stopColor="hsl(270, 70%, 60%)" />
           </linearGradient>
           
           <linearGradient id="accentGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="hsl(280, 80%, 65%)" />
-            <stop offset="100%" stopColor="hsl(217, 100%, 70%)" />
+            <stop offset="0%" stopColor="hsl(300, 100%, 60%)" />
+            <stop offset="100%" stopColor="hsl(180, 100%, 60%)" />
           </linearGradient>
           
           <radialGradient id="glowCenter">
-            <stop offset="0%" stopColor="hsl(217, 100%, 70%)" stopOpacity="0.8"/>
-            <stop offset="50%" stopColor="hsl(270, 80%, 70%)" stopOpacity="0.4"/>
-            <stop offset="100%" stopColor="hsl(217, 91%, 60%)" stopOpacity="0"/>
+            <stop offset="0%" stopColor="hsl(180, 100%, 60%)" stopOpacity="0.9"/>
+            <stop offset="30%" stopColor="hsl(217, 100%, 70%)" stopOpacity="0.6"/>
+            <stop offset="70%" stopColor="hsl(270, 80%, 70%)" stopOpacity="0.3"/>
+            <stop offset="100%" stopColor="transparent" stopOpacity="0"/>
           </radialGradient>
           
-          {/* Enhanced blur filters */}
+          {/* Multi-layer glow filters */}
           <filter id="glow">
-            <feGaussianBlur stdDeviation={glow} result="coloredBlur"/>
+            <feGaussianBlur stdDeviation={glow * 0.8} result="coloredBlur"/>
+            <feColorMatrix in="coloredBlur" type="matrix" values="
+              1.2 0 0 0 0
+              0 1.5 0 0 0
+              0 0 2 0 0
+              0 0 0 1.2 0"/>
             <feMerge>
               <feMergeNode in="coloredBlur"/>
               <feMergeNode in="coloredBlur"/>
@@ -59,41 +66,56 @@ export function AssistantAvatar({
           </filter>
 
           <filter id="strongGlow">
-            <feGaussianBlur stdDeviation={glow * 1.5} result="coloredBlur"/>
-            <feColorMatrix in="coloredBlur" type="matrix" values="
-              1.5 0 0 0 0
-              0 1.5 0 0 0
-              0 0 2 0 0
-              0 0 0 1 0"/>
+            <feGaussianBlur stdDeviation={glow * 2} result="blur1"/>
+            <feGaussianBlur in="blur1" stdDeviation={glow} result="blur2"/>
+            <feColorMatrix in="blur2" type="matrix" values="
+              2 0 0 0 0
+              0 2 0 0 0
+              0 0 3 0 0
+              0 0 0 1.5 0"/>
             <feMerge>
+              <feMergeNode/>
               <feMergeNode/>
               <feMergeNode in="SourceGraphic"/>
             </feMerge>
           </filter>
 
-          {/* Wave distortion */}
+          {/* Smooth wave distortion */}
           <filter id="wave">
-            <feTurbulence type="turbulence" baseFrequency="0.015" numOctaves="3" result="turbulence">
+            <feTurbulence type="fractalNoise" baseFrequency="0.012" numOctaves="4" seed="2" result="turbulence">
               <animate attributeName="baseFrequency" 
-                values="0.015;0.025;0.015" 
-                dur={`${speed}s`} 
+                values="0.012;0.018;0.012" 
+                dur={`${speed * 1.2}s`} 
                 repeatCount="indefinite"/>
             </feTurbulence>
-            <feDisplacementMap in2="turbulence" in="SourceGraphic" scale={complexity} />
+            <feDisplacementMap in2="turbulence" in="SourceGraphic" scale={complexity * 1.5} xChannelSelector="R" yChannelSelector="G" />
           </filter>
         </defs>
 
-        {/* Glowing background */}
+        {/* Multi-layer glowing background */}
         <motion.circle
           cx="150"
           cy="150"
-          r="120"
+          r="140"
+          fill="url(#glowCenter)"
+          filter="url(#strongGlow)"
+          animate={{ 
+            scale: isSpeaking ? [1, 1.2, 1] : isThinking ? [1, 1.15, 1] : [1, 1.1, 1],
+            opacity: isSpeaking ? [0.7, 1, 0.7] : isThinking ? [0.5, 0.8, 0.5] : [0.4, 0.6, 0.4]
+          }}
+          transition={{ duration: speed, repeat: Infinity, ease: "easeInOut" }}
+        />
+        
+        <motion.circle
+          cx="150"
+          cy="150"
+          r="100"
           fill="url(#glowCenter)"
           animate={{ 
-            scale: isSpeaking ? [1, 1.15, 1] : [1, 1.08, 1],
-            opacity: isSpeaking ? [0.6, 0.9, 0.6] : [0.4, 0.6, 0.4]
+            scale: [1.1, 1, 1.1],
+            opacity: [0.3, 0.5, 0.3]
           }}
-          transition={{ duration: speed * 0.8, repeat: Infinity, ease: "easeInOut" }}
+          transition={{ duration: speed * 0.7, repeat: Infinity, ease: "easeInOut", delay: 0.2 }}
         />
 
         {/* Main animated rings */}
