@@ -11,12 +11,19 @@ export function AssistantAvatar({
 }: AssistantAvatarProps) {
   // Create wave animation
   const getWaveAmplitude = () => {
-    if (isSpeaking) return 40;
+    if (isSpeaking) return 50;
     if (isListening) return 20;
     return 8;
   };
 
+  const getAnimationSpeed = () => {
+    if (isSpeaking) return 1.2;
+    if (isListening) return 1.8;
+    return 2.5;
+  };
+
   const amplitude = getWaveAmplitude();
+  const speed = getAnimationSpeed();
 
   return (
     <div className="relative mx-auto w-fit py-8">
@@ -26,9 +33,9 @@ export function AssistantAvatar({
           d="M 0 60 Q 20 60 40 60 T 80 60 T 120 60 T 160 60 T 200 60 T 240 60 T 280 60 L 300 60"
           fill="none"
           stroke="hsl(45, 90%, 60%)"
-          strokeWidth="12"
+          strokeWidth="4"
           strokeLinecap="round"
-          opacity="0.7"
+          opacity="0.8"
           animate={{
             d: [
               `M 0 60 Q 20 ${60 - amplitude} 40 60 T 80 60 T 120 60 T 160 60 T 200 60 T 240 60 T 280 60 L 300 60`,
@@ -38,7 +45,7 @@ export function AssistantAvatar({
             ],
           }}
           transition={{
-            duration: 2,
+            duration: speed,
             repeat: Infinity,
             ease: "easeInOut",
           }}
@@ -49,9 +56,9 @@ export function AssistantAvatar({
           d="M 0 60 Q 20 60 40 60 T 80 60 T 120 60 T 160 60 T 200 60 T 240 60 T 280 60 L 300 60"
           fill="none"
           stroke="hsl(var(--foreground))"
-          strokeWidth="14"
+          strokeWidth="6"
           strokeLinecap="round"
-          opacity="0.5"
+          opacity="0.6"
           animate={{
             d: [
               `M 0 60 Q 20 60 40 60 T 80 ${60 - amplitude * 0.8} T 120 60 T 160 60 T 200 ${60 + amplitude * 0.8} T 240 60 T 280 60 L 300 60`,
@@ -61,7 +68,7 @@ export function AssistantAvatar({
             ],
           }}
           transition={{
-            duration: 1.8,
+            duration: speed * 0.9,
             repeat: Infinity,
             ease: "easeInOut",
             delay: 0.2,
@@ -73,9 +80,9 @@ export function AssistantAvatar({
           d="M 0 60 Q 20 60 40 60 T 80 60 T 120 60 T 160 60 T 200 60 T 240 60 T 280 60 L 300 60"
           fill="none"
           stroke="hsl(350, 80%, 65%)"
-          strokeWidth="12"
+          strokeWidth="4"
           strokeLinecap="round"
-          opacity="0.7"
+          opacity="0.8"
           animate={{
             d: [
               `M 0 60 Q 20 60 40 60 T 80 60 T 120 ${60 + amplitude} T 160 60 T 200 60 T 240 ${60 - amplitude} T 280 60 L 300 60`,
@@ -85,7 +92,7 @@ export function AssistantAvatar({
             ],
           }}
           transition={{
-            duration: 2.2,
+            duration: speed * 1.1,
             repeat: Infinity,
             ease: "easeInOut",
             delay: 0.4,
