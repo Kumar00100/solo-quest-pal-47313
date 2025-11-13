@@ -15,6 +15,7 @@ type Expression = 'idle' | 'speaking' | 'thinking' | 'happy';
 const Assistant = () => {
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [isListening, setIsListening] = useState(false);
+  const [isThinking, setIsThinking] = useState(false);
   const [expression, setExpression] = useState<Expression>('idle');
   const [profileOpen, setProfileOpen] = useState(false);
   const [dashboardOpen, setDashboardOpen] = useState(false);
@@ -27,24 +28,26 @@ const Assistant = () => {
 
   const handleSendMessage = (text: string) => {
     setMessages([...messages, { role: 'user', text }]);
+    setIsThinking(true);
     setExpression('thinking');
     
-    // Simulate AI response with realistic expressions
+    // Simulate AI thinking/processing
     setTimeout(() => {
+      setIsThinking(false);
       setExpression('speaking');
       setIsSpeaking(true);
       const response = "I understand you want to work on that. Let me help you create a plan!";
       setMessages(prev => [...prev, { role: 'assistant', text: response }]);
       
-      // Simulate speech duration with lip sync
+      // Simulate speech duration
       setTimeout(() => {
         setIsSpeaking(false);
         setExpression('happy');
         
-        // Return to idle after a moment
+        // Return to idle
         setTimeout(() => setExpression('idle'), 1500);
       }, 3000);
-    }, 800);
+    }, 1500);
   };
 
   const handleToggleListening = () => {
@@ -98,6 +101,7 @@ const Assistant = () => {
           <AssistantAvatar 
             isSpeaking={isSpeaking}
             isListening={isListening}
+            isThinking={isThinking}
           />
         </div>
       </div>
